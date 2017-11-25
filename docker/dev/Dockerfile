@@ -3,10 +3,10 @@ MAINTAINER Andrey Romanov <ansromanov@gmail.com>
 
 # Install dev/build dependencies
 RUN apt-get update && \
-    apt-get install -qy python-dev
+    apt-get install -qy python-dev libmysqlclient-dev
 
 # Activate virtual environment and install wheel support
-RUN ./appenv/bin/activate && \
+RUN . /appenv/bin/activate && \
     pip install wheel --upgrade
 
 # PIP environment variables (NOTE: must be after installing wheel)
@@ -27,5 +27,5 @@ ENTRYPOINT [ "test.sh" ]
 CMD ["python", "manage.py", "test", "--noinput"]
 
 # Add application source
-COPY sry /application
+COPY src /application
 WORKDIR /application
