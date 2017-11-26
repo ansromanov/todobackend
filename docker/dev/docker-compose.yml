@@ -10,6 +10,7 @@ services:
       - "db"
     depends_on:
       - "db"
+      - "cache"
     environment:
       DJANGO_SETTINGS_MODULE: "todobackend.settings.test"
       MYSQL_HOST: "db"
