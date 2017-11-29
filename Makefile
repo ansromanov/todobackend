@@ -24,6 +24,8 @@ test:
 build:
 	${INFO} "Building application artefacts..."
 	@ docker-compose -p $(DEV_PROJECT) -f $(DEV_COMPOSE_FILE) up builder
+	${INFO} "Copying artefacts to target folder..."
+	@ docker cp $$(docker-compose -p $(DEV_PROJECT) -f $(DEV_COMPOSE_FILE) ps -q builder):/wheelhouse/. target
 	${INFO} "Build complete..."
 
 release:

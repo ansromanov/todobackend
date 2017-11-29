@@ -32,11 +32,11 @@ services:
     command: "--reporter mocha-jenkins-reporter"
 
   nginx:
-    image: "nginx"
+    build:
+      context: "."
+      dockerfile: "Dockerfile.nginx"
     depends_on:
       - "app"
-    volumes:
-      - "./todobackend.conf:/etc/nginx/conf.d/todobackend.conf"
     ports:
       - "8000:8000"
     volumes_from:

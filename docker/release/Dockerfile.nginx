@@ -1,0 +1,5 @@
+FROM nginx
+MAINTAINER Andrey Romanov <ansromanov@gmail.com>
+
+# Copy configuration file
+COPY todobackend.conf /etc/nginx/conf.d/todobackend.conf
