@@ -1,0 +1,50 @@
+version: "2"
+
+volumes:
+  build:
+    driver: local
+  cache:
+    external: true
+
+services:
+  test:
+    build:
+      context: "../../"
+      dockerfile: "docker/dev/Dockerfile"
+    volumes:
+      - "cache:/cache"
+      - "build:/build"
+    depends_on:
+      - "db"
+    environment:
+      DJANGO_SETTINGS_MODULE: "todobackend.settings.test"
+      MYSQL_HOST: "db"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "password"
+      TEST_OUTPUT_DIR: "/reports"
+
+  agent:
+    image: ansromanov/ansible
+    depends_on:
+      - db
+    environment:
+      PROBE_HOST: "db"
+      PROBE_PORT: "3306"
+    command: ["probe.yml"]
+
+  builder:
+    build:
+      context: "../../"
+      dockerfile: "docker/dev/Dockerfile"
+    volumes:
+      - "build:/build"
+    entrypoint: "entrypoint.sh"
+    command: ["pip", "wheel", "--no-index", "-f /build", "."]
+
+  db:
+    image: "mysql:5.6"
+    hostname: "db"
+    expose: 
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
