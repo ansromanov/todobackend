@@ -6,8 +6,6 @@ services:
       dockerfile: "docker/dev/Dockerfile"
     volumes_from:
       - "cache"
-    links:
-      - "db"
     depends_on:
       - "db"
       - "cache"
@@ -17,6 +15,16 @@ services:
       MYSQL_USER: "root"
       MYSQL_PASSWORD: "password"
       TEST_OUTPUT_DIR: "/reports"
+
+  agent:
+    image: ansromanov/ansible
+    depends_on:
+      - db
+    environment:
+      PROBE_HOST: "db"
+      PROBE_PORT: "3306"
+    command: ["probe.yml"]
+
 
   builder:
     build:
