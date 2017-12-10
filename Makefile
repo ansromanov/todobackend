@@ -1,6 +1,6 @@
-# Project variables
+ # Project variables
 PROJECT_NAME ?= todobackend
-ORG_NAME ?= jmenga
+ORG_NAME ?= ansromanov
 REPO_NAME ?= todobackend
 
 # Filenames
